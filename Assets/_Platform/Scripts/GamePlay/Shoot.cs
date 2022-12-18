@@ -14,12 +14,14 @@ public class Shoot : MonoBehaviour
     private GameObject _bullet;
     private GameObject _bulletRight;
     private GameObject _bulletLeft;
+    private GameObject _secondBullet;
 
     public float timer = 3;
     private float _index;
 
     public bool triple;
     public bool doubleShot;
+    
 
     private void Awake()
     {
@@ -41,8 +43,7 @@ public class Shoot : MonoBehaviour
         {
             Shooting();
             _index = 0;
-            if (doubleShot) _index = 2.5f;
-            doubleShot = false;
+            if (doubleShot) DoubleShoot();
         }
 
         if (Vector3.Distance(_bullet.transform.position,barrel.position) >= 25f)
@@ -68,6 +69,13 @@ public class Shoot : MonoBehaviour
         {
             TripleShot();
         }
+    }
+    public void DoubleShoot()
+    {
+        _secondBullet = PoolManager.Instance.GetPoolObject(0);
+        _secondBullet.transform.forward = barrel.transform.forward;
+        _secondBullet.transform.position = _bullet.transform.position - Vector3.back;
+        
     }
 
     public void TripleShot()
